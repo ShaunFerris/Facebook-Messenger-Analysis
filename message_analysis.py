@@ -195,5 +195,10 @@ class FacebookChat():
                 sorted(emojis_by_party[party].items(), key=lambda x:x[1], reverse=True)
         return emojis_by_party
 
+    def get_time_interval(self):
+        '''Returns the start and end of the conversation'''
+        pass
 
-
+    def get_number_days(self):
+        ''''Calculates days between start and end of the conversation record'''
+        pass
