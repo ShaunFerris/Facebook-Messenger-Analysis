@@ -189,7 +189,6 @@ class FacebookChat():
             for tup in to_search:
                 if emoji.is_emoji(tup[0]) == True:
                     emojis_by_party[party][tup[0]] += tup[1]
-        #for party in emojis_by_party:
             emojis_by_party[party] = \
                 {emoji.emojize(emoji.demojize(e)): c for e, c in emojis_by_party[party].items() if c}
             emojis_by_party[party] = \

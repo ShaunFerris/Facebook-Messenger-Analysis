@@ -1,22 +1,33 @@
-#Badly coded slapdash attempt at merging the 3 json files of chat logs with Es from facebook data dump
+'''Small utility script for merging multiple .json files from the same messenger conversation into one for analysis
+by message analysis.py'''
 
 import json
 
-msg_data1 = json.load(open('/home/shaun/Documents/Coding Projects/Facebook Data Analysis/essiepreddey_10156928597205650/message_1.json'))
-msg_data2 = json.load(open('/home/shaun/Documents/Coding Projects/Facebook Data Analysis/essiepreddey_10156928597205650/message_2.json'))
-msg_data3 = json.load(open('/home/shaun/Documents/Coding Projects/Facebook Data Analysis/essiepreddey_10156928597205650/message_3.json'))
+print('how many files do you want to merge?')
+num_files_to_merge = int(input('>>'))
+files_to_merge = {n: 0 for n in range(1, num_files_to_merge + 1)}
+for n in files_to_merge:
+    print('Input file...')
+    files_to_merge[n] = input('>>')
 
-msgs1 = msg_data1['messages']
-msgs2 = msg_data2['messages']
-msgs3 = msg_data3['messages']
+#add latest timestamp to data so they can be stitched in the right order
+for n, f in files_to_merge.items():
+    file = json.load(open(f))
+    files_to_merge[n] =(f, file['messages'][0]['timestamp_ms'])
+#Set the order to stitch files by index in a list
+files_to_merge = sorted(files_to_merge.values(), key=lambda x:x[1], reverse=True)
 
-msgs1.extend(msgs2)
-msgs1.extend(msgs3)
+output = json.load(open(files_to_merge[0][0]))
+count = 0
+for tup in files_to_merge:
+    count += 1
+    if count == 1:
+        continue
+    data = json.load(open(tup[0]))
+    output['messages'].extend(data['messages'])
 
-merged_msgs = msgs1
+print('Enter name for merged file')
+out_name = input('>>')
 
-with open('merged_messages.json', 'x') as outfile:#if starting from scratch again, change w arg to x to create new json file
-    json.dump(merged_msgs, outfile, indent=2)
-
-'''TODO: re-write this to be more widely applicable to other users/other chat logs, and to not omit the participants section
-at the top of the chat log from the final ,merged file'''
+with open(out_name, 'x') as outfile:
+    json.dump(output, outfile, indent=2)
