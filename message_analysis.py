@@ -203,3 +203,5 @@ class FacebookChat():
 
     def get_number_days(self):
         '''Calculates the number of days between first and last messages'''
+
+        pass
