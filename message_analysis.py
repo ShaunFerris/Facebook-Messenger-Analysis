@@ -196,9 +196,10 @@ class FacebookChat():
         return emojis_by_party
 
     def get_time_interval(self):
-        '''Returns the start and end of the conversation'''
+        '''Gets the start and end timestamps of the messages
+        
+        Returns the start and end times converted to desired format'''
         pass
 
     def get_number_days(self):
-        ''''Calculates days between start and end of the conversation record'''
-        pass
+        '''Calculates the number of days between first and last messages'''
