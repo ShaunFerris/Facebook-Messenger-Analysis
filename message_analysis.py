@@ -197,14 +197,4 @@ class FacebookChat():
         return emojis_by_party
 
 
-#TEMP TESTING ZONE
-if __name__ == '__main__':
-    AndrewHolmChat = FacebookChat(
-        '/home/shaun/Documents/Coding Projects/Facebook Data Analysis/andrewholm_10156500193045650/message_1.json')
 
-    print(f'People in this chat are: {AndrewHolmChat.get_participants()[0]} and {AndrewHolmChat.get_participants()[1]}')
-    print(f'The total number of interactions were: {AndrewHolmChat.total_interactions()}')
-    print(f'The number of texts per person were: {AndrewHolmChat.number_of_texts()}')
-    squirts = AndrewHolmChat.search_words('Andrew Holm', 'squirt')
-    print(f'Andrew used the word squirt {squirts[1]} times')
-    print(AndrewHolmChat.emoji_by_party())
