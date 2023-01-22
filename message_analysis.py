@@ -3,13 +3,16 @@ This iteration implements a facebook-chat class to process the .json logs and in
 
 Inspiration and pointers for this project came from this git repo:
 https://github.com/davidkrantz/FacebookChatStatistics/blob/master/facebook_messenger_conversation.py
-by David Krantz, but I am writing this code for myself as a learning exercise.'''
+by David Krantz, but I am writing this code for myself as a learning exercise.
+Additionaly, my implementation will treat voice, video and text messages as different entities,
+allowing stats on the different categories to be more easily pulled with in class methods.'''
 
 import json
 import emoji
 from typing import TextIO
 from collections import Counter
 from copy import deepcopy
+from datetime import datetime, timedelta
 
 class FacebookChat():
     '''A module for processing and retrieving relvent data from the JSON records of a messenger conversation.
@@ -17,9 +20,8 @@ class FacebookChat():
     Attributes:
         chat_contents (list): List of dicts, each dict representing one message/call
         participants (dict): List of conversation participants, anonymized to p1, p2 etc
-        title (str): Title of the conversation
-        
-        '''
+        title (str): Title of the conversation'''
+
     def __init__(self, chat_file: TextIO):
         '''Parses the JSON, separates the participant data and the 
         message contents, and decodes UTF escape characters like emoji in the text contents
@@ -27,9 +29,7 @@ class FacebookChat():
         Args: 
         chat_file(.json):JSON chat-log in the format provided by facebook. 
         NOTE: some large chats are provided in multiple JSON files,
-        these muct be merged first to get accuarate data of the whole chat
-        
-        '''
+        these muct be merged first to get accuarate data of the whole chat'''
 
         #read the .json file and set the class attributes
         with open(chat_file, 'r') as f:
@@ -97,6 +97,18 @@ class FacebookChat():
                     word_list = words_by_party.get(name)
                     word_list.append(word.lower())
         return words_by_party
+
+    def number_of_words(self) -> tuple[int, dict[str, int]]:#TODO test this function
+        '''Counts all words sent by all parties
+        
+        Returns total words in chat, number sent by each participant'''
+
+        words_by_party = self.words_in_txts()
+        word_count_by_party = {p: len(w) for p, w in words_by_party}
+        total_word_count = 0
+        for c in word_count_by_party.values():
+            total_word_count += c
+        return total_word_count, word_count_by_party
 
     def common_words(self, number: int = 10) -> dict[str, list[tuple[str, int]]]:
         ''''Takes the words list for each participant and counts the most common.
@@ -195,13 +207,30 @@ class FacebookChat():
                 sorted(emojis_by_party[party].items(), key=lambda x:x[1], reverse=True)
         return emojis_by_party
 
-    def get_time_interval(self):
+    def get_time_interval(self, output: str = 'str') -> tuple: #TODO: Test this function
         '''Gets the start and end timestamps of the messages
         
         Returns the start and end times converted to desired format'''
+        
+        start = datetime.fromtimestamp(self.data['messages'][-1]['timestamp_ms']/1000)
+        end = datetime.fromtimestamp(self.data['messages'][0]['timestamp_ms']/1000)
+        if output == 'datetime':
+            return start, end
+        elif output == 'str':
+            return start.strftime('%Y-%m-%d %H:%M:%S'), end.strftime('%Y-%m-%d %H:%M:%S')
+        else:
+            raise ValueError('Type not supported. Must be either datetime or str.')
+
+    def get_number_days(self) -> int: #TODO: Test this function
+        '''Calculates the number of days between first and last messages
+        
+        Returns the number of days as an int'''
+
+        start, end = self.get_time_interval('datetime')
+        return (end - start).days + 1
+
+    def av_msg_length(self):
         pass
 
-    def get_number_days(self):
-        '''Calculates the number of days between first and last messages'''
-
+    def msgs_by_day(self):
         pass
