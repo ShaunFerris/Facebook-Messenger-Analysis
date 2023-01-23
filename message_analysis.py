@@ -232,5 +232,7 @@ class FacebookChat():
     def av_msg_length(self):
         pass
 
-    def msgs_by_day(self):
-        pass
+    def txts_per_day(self) -> int:
+        '''Gets the average number of text messages sent per day'''
+        
+        return int(self.number_of_texts() / self.get_number_days())
