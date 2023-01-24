@@ -212,8 +212,8 @@ class FacebookChat():
         
         Returns the start and end times converted to desired format'''
         
-        start = datetime.fromtimestamp(self.data['messages'][-1]['timestamp_ms']/1000)
-        end = datetime.fromtimestamp(self.data['messages'][0]['timestamp_ms']/1000)
+        start = datetime.fromtimestamp(self.chat_contents[-1]['timestamp_ms']/1000)
+        end = datetime.fromtimestamp(self.chat_contents[0]['timestamp_ms']/1000)
         if output == 'datetime':
             return start, end
         elif output == 'str':
