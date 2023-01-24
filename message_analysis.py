@@ -12,7 +12,7 @@ import emoji
 from typing import TextIO
 from collections import Counter
 from copy import deepcopy
-from datetime import datetime, timedelta
+from datetime import datetime
 
 class FacebookChat():
     '''A module for processing and retrieving relvent data from the JSON records of a messenger conversation.
@@ -229,10 +229,15 @@ class FacebookChat():
         start, end = self.get_time_interval('datetime')
         return (end - start).days + 1
 
-    def av_msg_length(self):
-        pass
+    def av_words_per_text(self) -> dict[str, int]:#TODO: Test this function
+        '''Gets the average words per text message for each party'''
 
-    def txts_per_day(self) -> int:
+        words = self.number_of_words()[1]
+        words_per_text = {p: w/self.get_number_days() for p, w in words}
+        return words_per_text
+
+
+    def av_txts_per_day(self) -> int:
         '''Gets the average number of text messages sent per day'''
         
         return int(self.number_of_texts() / self.get_number_days())
