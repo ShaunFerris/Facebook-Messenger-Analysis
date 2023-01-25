@@ -109,5 +109,5 @@ def init_display_control():
 
 if __name__ == '__main__':
     selected = export_stats((options_list(instantiate(\
-        '/home/shaun/Documents/Coding Projects/Facebook Data Analysis/merged_messagesV2.json'))))
+        ''))))
     print(selected)
