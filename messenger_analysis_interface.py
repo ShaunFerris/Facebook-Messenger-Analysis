@@ -9,6 +9,9 @@ import sys
 import os
 import shutil
 from typing import TextIO
+import numpy as np
+import matplotlib.pyplot as plot
+
 from facebookchat import FacebookChat as FB
 
 def main():
@@ -18,7 +21,15 @@ def splash_screen():
     pass
 
 def instantiate(json: TextIO):
-    chat_object = FB(json)
+    '''Create a FacebookChat object from supplied file.
+    Should only ever recieve files post merge if merging is required.
+    Merging will be handled by a different function.'''
+
+    try:
+        chat_object = FB(json)
+    except:
+        print("Please supply a valid .json Facebook Messenger log")
+        sys.exit()
     return chat_object
 
 def options_list(chat_object):
@@ -58,13 +69,16 @@ def options_list(chat_object):
     
 
 def border(display_chr: str='#') -> str:
+    '''Incomplete.
+    Function to draw a border of characters around the terminal.
+    Will be used for the splash screen function.'''
     #Clear terminal of existing ouputs
     if sys.platform == 'win32':
         os.system('cls')
     else:
         os.system('clear')
     display_matrix = init_display_control()
-    display_matrix[0][:], display_matrix[-1][:] = display_chr
+    display_matrix[0][:], display_matrix[-1][:] = display_chr, display_chr
 
 def init_display_control():
     '''Get terminal dimensions and initialise a matrix representing output "pixels" 
@@ -80,6 +94,8 @@ def init_display_control():
     return display_matrix
 
 if __name__ == '__main__':
-    selected = (options_list(instantiate('')))
-    for i in selected:
-        print(i())
+    #selected = (options_list(instantiate('')))
+    #for i in selected:
+        #print(i())
+
+    print(border())
