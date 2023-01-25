@@ -8,10 +8,12 @@ desired file system location.'''
 import sys
 import os
 import shutil
+import json
+import emoji
 from typing import TextIO
 import numpy as np
 import matplotlib.pyplot as plot
-
+from matplotlib.backends.backend_pdf import PdfPages
 from facebookchat import FacebookChat as FB
 
 def main():
@@ -67,6 +69,18 @@ def options_list(chat_object):
             command_list.append(OPTIONS[i])
     return command_list
     
+def export_stats(command_list):
+    '''Function to call the list of desired FacebookChat class methods provided
+    by the options list function, then export their results.
+    
+    Returns a dict of calculated stats keyed with the __name__ of function called.'''
+
+    results = {f.__name__: f() for f in command_list}
+    return results
+
+def command_line_stats_output(command_list):
+    #Participants
+    pass
 
 def border(display_chr: str='#') -> str:
     '''Incomplete.
@@ -94,8 +108,6 @@ def init_display_control():
     return display_matrix
 
 if __name__ == '__main__':
-    #selected = (options_list(instantiate('')))
-    #for i in selected:
-        #print(i())
-
-    print(border())
+    selected = export_stats((options_list(instantiate(\
+        '/home/shaun/Documents/Coding Projects/Facebook Data Analysis/merged_messagesV2.json'))))
+    print(selected)
