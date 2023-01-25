@@ -10,7 +10,7 @@ import os
 import shutil
 import json
 import emoji
-from typing import TextIO
+from typing import TextIO, Any, List, Dict, AnyStr
 import numpy as np
 import matplotlib.pyplot as plot
 from matplotlib.backends.backend_pdf import PdfPages
@@ -69,7 +69,7 @@ def options_list(chat_object):
             command_list.append(OPTIONS[i])
     return command_list
     
-def export_stats(command_list):
+def export_stats(command_list: List) -> Dict[AnyStr, Any]:
     '''Function to call the list of desired FacebookChat class methods provided
     by the options list function, then export their results.
     
@@ -82,7 +82,7 @@ def command_line_stats_output(command_list):
     #Participants
     pass
 
-def border(display_chr: str='#') -> str:
+def border(display_chr: AnyStr='#') -> AnyStr:
     '''Incomplete.
     Function to draw a border of characters around the terminal.
     Will be used for the splash screen function.'''
@@ -95,7 +95,8 @@ def border(display_chr: str='#') -> str:
     display_matrix[0][:], display_matrix[-1][:] = display_chr, display_chr
 
 def init_display_control():
-    '''Get terminal dimensions and initialise a matrix representing output "pixels" 
+    '''NOTE: Unsure if this will be used.
+    Get terminal dimensions and initialise a matrix representing output "pixels" 
     
     Returns a matrix containing 0s as ints. 
     Each 0 represents one chr space on the terminal window when the function was called'''
