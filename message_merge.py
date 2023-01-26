@@ -18,9 +18,7 @@ def fb_chat_merge(files_to_merge: list, outfile_name: str='unnamed_merged_messag
         file = json.load(open(f))
         files_to_merge[n] = (f, file['messages'][0]['timestamp_ms'])
     #Set the order to stitch files by index in a list
-    print(files_to_merge)
     files_to_merge = sorted(files_to_merge.values(), key=lambda x:x[1], reverse=True)
-    print(files_to_merge)
     #Set latest fragment as top of file
     output = json.load(open(files_to_merge[0][0]))
     count = 0
