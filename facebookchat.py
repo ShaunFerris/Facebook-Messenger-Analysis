@@ -109,7 +109,7 @@ class FacebookChat():
         Returns total words in chat, number sent by each participant'''
 
         words_by_party = self.words_in_txts()
-        word_count_by_party = {p: len(w) for p, w in words_by_party}
+        word_count_by_party = {p: len(w) for p, w in words_by_party.items()}
         total_word_count = 0
         for c in word_count_by_party.values():
             total_word_count += c
@@ -174,7 +174,7 @@ class FacebookChat():
         total_duration = total_duration // 60
         return voice_calls_by_party, total_duration
 
-    def video_calls_analysis(self) -> tuple[dict[str, int], int]:
+    def video_calls_analysis(self) -> tuple[dict[str, int], int]: #BUG TO FIND - returning 0s
         '''Counts the number and duration of video calls made between parites in the chat
         
         Returns:
@@ -187,7 +187,7 @@ class FacebookChat():
             if 'call_duration' in msg\
             and msg['content'] == 'The video chat has ended.':
                 video_calls_by_party[msg['sender_name']] += 1
-                total_call_duration +=msg['call_duration']
+                total_call_duration += msg['call_duration']
         total_call_duration = total_call_duration // 60
         return video_calls_by_party, total_call_duration
 
@@ -238,9 +238,8 @@ class FacebookChat():
         '''Gets the average words per text message for each party'''
 
         words = self.number_of_words()[1]
-        words_per_text = {p: w/self.get_number_days() for p, w in words}
+        words_per_text = {p: w // self.get_number_days() for p, w in words.items()}
         return words_per_text
-
 
     def av_txts_per_day(self) -> int:
         '''Gets the average number of text messages sent per day'''
