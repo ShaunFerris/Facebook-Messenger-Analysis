@@ -89,28 +89,30 @@ def command_line_stats_output(exported_stats):
                     print(f'{i} ', end='')
                 else:
                     print(f'and {i}.')
-        elif func_name == 'get_number_of_days':
+        elif func_name == 'get_number_days':
             print(f'The chat spanned {output} days.')
         elif func_name == 'total_interactions':
             print(f'The chat encompassed {output} interactions.')
         elif func_name == 'number_of_texts':
-            for i in output:
+            for i in output[1]:
                 print(f'{i[0]} sent {i[1]} texts')
+            print(f'There were a total of {output[0]} texts sent.')
         elif func_name == 'common_words':
             for party, word_list in output.items():
                 print(f'{party}\'s most common words were: \n {word_list}')
         elif func_name == 'voice_calls_analysis':
-            for party, calls in output[0]:
+            for party, calls in output[0].items():
                 print(f'{party} initiated {calls} voice calls.')
-            print(f'There were a total of {output} voice calls.')
+            print(f'There were a total of {output[1]} minutes of voice call.')
         elif func_name == 'video_calls_analysis':
-            for party, calls in output[0]:
+            for party, calls in output[0].items():
                 print(f'{party} initiated {calls} video calls.')
-            print(f'There were a total of {output} video calls.')
+            print(f'There were a total of {output[1]} minutes of video call.')
         elif func_name == 'av_txts_per_day':
             print(f'On average, {output} text messages were sent every day.')
         elif func_name == 'av_words_per_text':
-            print(f'The average text sent contained {output} words.')
+            for party, words in output.items():
+                print(f'The average text sent by {party} contained {words} words.')
 
 def border(display_chr: str='#') -> str:
     '''Incomplete.
