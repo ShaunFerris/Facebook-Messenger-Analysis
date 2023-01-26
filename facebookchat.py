@@ -72,15 +72,20 @@ class FacebookChat():
                 txt_list.append(msg['content'])
         return txts
 
-    def number_of_texts(self) -> list[tuple[str, int]]:
-        '''Returns the number of texts sent by each chat participant
-        as a list containing tuples: (name (str), number of msgs (int))'''
+    def number_of_texts(self) -> tuple[int, list[tuple[str, int]]]:
+        '''Returns the overall total number of texts sent, and
+        the number of texts sent by each chat participant.
+        Returns the total as an int, and the breakdown as a list containing 
+        tuples: (name (str), number of msgs (int))'''
         
         txts = self.txts_by_party()
         txt_counts = []
+        total = 0
         for name, msgs in txts.items():
             txt_counts.append((name, len(msgs)))
-        return txt_counts
+        for i in txt_counts:
+            total += i[1]
+        return total, txt_counts
 
     def words_in_txts(self) -> dict[str, list[str]]:
         '''Takes the sorted texts by participant and splits each message into individual words.
@@ -207,7 +212,7 @@ class FacebookChat():
                 sorted(emojis_by_party[party].items(), key=lambda x:x[1], reverse=True)
         return emojis_by_party
 
-    def get_time_interval(self, output: str = 'str') -> tuple: #TODO: Test this function
+    def get_time_interval(self, output: str = 'str') -> tuple:
         '''Gets the start and end timestamps of the messages
         
         Returns the start and end times converted to desired format'''
@@ -221,7 +226,7 @@ class FacebookChat():
         else:
             raise ValueError('Type not supported. Must be either datetime or str.')
 
-    def get_number_days(self) -> int: #TODO: Test this function
+    def get_number_days(self) -> int:
         '''Calculates the number of days between first and last messages
         
         Returns the number of days as an int'''
@@ -240,4 +245,4 @@ class FacebookChat():
     def av_txts_per_day(self) -> int:
         '''Gets the average number of text messages sent per day'''
         
-        return int(self.number_of_texts() / self.get_number_days())
+        return int(self.number_of_texts()[0] / self.get_number_days())
