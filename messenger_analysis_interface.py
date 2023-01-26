@@ -114,32 +114,6 @@ def command_line_stats_output(exported_stats):
             for party, words in output.items():
                 print(f'The average text sent by {party} contained {words} words.')
 
-def border(display_chr: str='#') -> str:
-    '''Incomplete.
-    Function to draw a border of characters around the terminal.
-    Will be used for the splash screen function.'''
-
-    #Clear terminal of existing ouputs
-    if sys.platform == 'win32':
-        os.system('cls')
-    else:
-        os.system('clear')
-    display_matrix = init_display_control()
-    display_matrix[0][:], display_matrix[-1][:] = display_chr, display_chr
-
-def init_display_control():
-    '''NOTE: Unsure if this will be used.
-    Get terminal dimensions and initialise a matrix representing output "pixels" 
-    
-    Returns a matrix containing 0s as ints. 
-    Each 0 represents one chr space on the terminal window when the function was called'''
-
-    DISPLAY_WIDTH, DISPLAY_HEIGHT = \
-    shutil.get_terminal_size()[0], shutil.get_terminal_size()[1]
-    display_matrix = [0] * DISPLAY_HEIGHT
-    for i in range(DISPLAY_HEIGHT):
-        display_matrix[i] = [0] * DISPLAY_WIDTH
-    return display_matrix
 
 if __name__ == '__main__':
     selected = export_stats((options_list(instantiate(\
