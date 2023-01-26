@@ -83,8 +83,12 @@ def command_line_stats_output(exported_stats):
         if func_name == 'get_participants':
             print(f'The chat participants were: ', end='')
             for i in output:
-                print(i, ', ', end='')
-            print('\n')
+                if i != output[-1] and i != output[-2]:
+                    print(f'{i}, ', end='')
+                elif i == output[-2]:
+                    print(f'{i} ', end='')
+                else:
+                    print(f'and {i}.')
         elif func_name == 'get_number_of_days':
             print(f'The chat spanned {output} days.')
         elif func_name == 'total_interactions':
@@ -94,7 +98,19 @@ def command_line_stats_output(exported_stats):
                 print(f'{i[0]} sent {i[1]} texts')
         elif func_name == 'common_words':
             for party, word_list in output.items():
-                
+                print(f'{party}\'s most common words were: \n {word_list}')
+        elif func_name == 'voice_calls_analysis':
+            for party, calls in output[0]:
+                print(f'{party} initiated {calls} voice calls.')
+            print(f'There were a total of {output} voice calls.')
+        elif func_name == 'video_calls_analysis':
+            for party, calls in output[0]:
+                print(f'{party} initiated {calls} video calls.')
+            print(f'There were a total of {output} video calls.')
+        elif func_name == 'av_txts_per_day':
+            print(f'On average, {output} text messages were sent every day.')
+        elif func_name == 'av_words_per_text':
+            print(f'The average text sent contained {output} words.')
 
 def border(display_chr: str='#') -> str:
     '''Incomplete.
@@ -125,5 +141,6 @@ def init_display_control():
 
 if __name__ == '__main__':
     selected = export_stats((options_list(instantiate(\
-        ''))))
-    print(selected)
+        '/home/shaun/Documents/Coding Projects/Facebook Data Analysis/merged_messagesV2.json'))))
+    
+    command_line_stats_output(selected)
