@@ -10,7 +10,7 @@ import os
 import shutil
 import json
 import emoji
-from typing import TextIO, Any, List, Dict, AnyStr
+from typing import TextIO, Any
 import numpy as np
 import matplotlib.pyplot as plot
 from matplotlib.backends.backend_pdf import PdfPages
@@ -69,23 +69,38 @@ def options_list(chat_object):
             command_list.append(OPTIONS[i])
     return command_list
     
-def export_stats(command_list: List) -> Dict[AnyStr, Any]:
+def export_stats(command_list: list) -> dict[str, Any]:
     '''Function to call the list of desired FacebookChat class methods provided
     by the options list function, then export their results.
     
     Returns a dict of calculated stats keyed with the __name__ of function called.'''
 
-    results = {f.__name__: f() for f in command_list}
-    return results
+    exported_stats = {f.__name__: f() for f in command_list}
+    return exported_stats
 
-def command_line_stats_output(command_list):
-    #Participants
-    pass
+def command_line_stats_output(exported_stats):
+    for func_name, output in exported_stats.items():
+        if func_name == 'get_participants':
+            print(f'The chat participants were: ', end='')
+            for i in output:
+                print(i, ', ', end='')
+            print('\n')
+        elif func_name == 'get_number_of_days':
+            print(f'The chat spanned {output} days.')
+        elif func_name == 'total_interactions':
+            print(f'The chat encompassed {output} interactions.')
+        elif func_name == 'number_of_texts':
+            for i in output:
+                print(f'{i[0]} sent {i[1]} texts')
+        elif func_name == 'common_words':
+            for party, word_list in output.items():
+                
 
-def border(display_chr: AnyStr='#') -> AnyStr:
+def border(display_chr: str='#') -> str:
     '''Incomplete.
     Function to draw a border of characters around the terminal.
     Will be used for the splash screen function.'''
+
     #Clear terminal of existing ouputs
     if sys.platform == 'win32':
         os.system('cls')
