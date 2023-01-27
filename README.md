@@ -16,4 +16,12 @@ Currently users will need to use the methods in this class in their own script t
 
 ## messenger_analysis_interface.py
 
-Under active construction, this script provides functionality to take a selection of desired statistics from the user and return a report.
+Under active construction, this script provides functionality to take a selection of desired statistics from the user and return a report in command line. This script requires both message_merge.py and facebookchat.py as dependencies.
+
+### Usage of messenger_analysis_iterface.py
+
+In the current verision running this module will initiate the file select dialouge. The user will be prompted as to wether they need to merge their files before beginning, and will then be prompted to supply one or more file paths. If the files are not in the same directory as the scripts, supply the full file path, otherwise just the file name will suffice. If a merged file is created it will be created in the working directory. Functionality to export it directly to another directory may be added in future.
+
+Next the user will be prompted to select from a list the stats they wish to extract from the chat record, and the results will be displayed as readable scentences in the terminal window.
+
+Functionality to export the stats as a text file and create graphical visualisations of the stats is intended for future updates.
