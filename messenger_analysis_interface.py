@@ -1,4 +1,4 @@
-'''UNDER CONSTRUCTION DOES NOT RUN'''
+#UNDER CONSTRUCTION
 
 '''Main file for user interface. Will print a splashscreen in terminal, takefiles from users, merge if
 neccessary, then take input on which stats to calculate using the FacebookChat class methods.
@@ -38,7 +38,9 @@ def instantiate(json: TextIO):
 def file_accept_dialogue():
     '''Presents the user with a choice of submitting one or more files.
     If one file is submitted, it is instantiated, if more than one,
-    they are merged and then instantiated.'''
+    they are merged and then instantiated.
+    
+    Returns the instantiated facebookchat object.'''
 
     print('Do you need to merge files for your chat log? (y / n)') #consider adding some exception catching
     mode = input('>> ')
@@ -78,7 +80,7 @@ def options_list(chat_object):
         f'Which statistics would you like from the supplied chat log? \n {OPTIONS_TO_PRINT}'
         f'\n (Enter the option codes, eg: 174)'
         )
-    chosen = str(input('>>'))
+    chosen = str(input('>> '))
     for i in range(10):
         if str(i) in chosen:
             command_list.append(OPTIONS[i])
@@ -93,7 +95,13 @@ def export_stats(command_list: list) -> dict[str, Any]:
     exported_stats = {f.__name__: f() for f in command_list}
     return exported_stats
 
-def command_line_stats_output(exported_stats):
+def command_line_stats_output(exported_stats: dict):
+    '''Main flow control loop for returning the desired stats as readable strings.
+    Takes the exported stats dict from the export stats command, and formats the
+    data into a string that corresponds to the function that produced it.
+    
+    Prints these strings to the terminal.'''
+
     for func_name, output in exported_stats.items():
         if func_name == 'get_participants':
             print(f'The chat participants were: ', end='')
@@ -129,12 +137,17 @@ def command_line_stats_output(exported_stats):
             for party, words in output.items():
                 print(f'The average text sent by {party} contained {words} words.')
 
-def section_header(text: str='Default', border_chr='#'):
-    pass
+def section_header(display_text: str='Default', border_chr: str='#'):
+    header_width = len(display_text) + 6
+    top_line = (border_chr * header_width) + '\n'
+    mid_line = f'{border_chr}  {display_text}  {border_chr}\n'
+    bottom_line = (border_chr * header_width) + '\n'
+    return print(top_line, mid_line, bottom_line)
 
 
 if __name__ == '__main__':
-    selected = export_stats((options_list(instantiate(\
-        '/home/shaun/Documents/Coding Projects/Facebook Data Analysis/merged_messagesV2.json'))))
-    
-    command_line_stats_output(selected)
+    #selected = export_stats((options_list(instantiate(\
+        #'/home/shaun/Documents/Coding Projects/Facebook Data Analysis/merged_messagesV2.json'))))
+    #command_line_stats_output(selected)
+
+    section_header('Testing title')
