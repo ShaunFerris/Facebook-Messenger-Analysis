@@ -32,10 +32,10 @@ def fb_chat_merge(files_to_merge: list, outfile_name: str='unnamed_merged_messag
     with open(outfile_name, 'x') as outfile:
         json.dump(output, outfile, indent=2)
 
-if __name__ == '__main__':
+def acquire_and_merge():
     file_list = []
     print('How many files would you like to merge?')
-    num_files_to_merge = input('>> ')
+    num_files_to_merge = int(input('>> '))
     for i in range(1, num_files_to_merge + 1):
         print('Enter path to file: ')
         file_list.append(input('>> '))
@@ -44,3 +44,7 @@ if __name__ == '__main__':
     fb_chat_merge(file_list, outfile_name)
     sleep(0.5)
     print('File created.')
+    return outfile_name
+
+if __name__ == '__main__':
+    acquire_and_merge()
