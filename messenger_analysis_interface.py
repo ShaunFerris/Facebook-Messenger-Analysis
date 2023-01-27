@@ -15,6 +15,7 @@ import numpy as np
 import matplotlib.pyplot as plot
 from matplotlib.backends.backend_pdf import PdfPages
 from facebookchat import FacebookChat as FB
+from message_merge import acquire_and_merge
 
 def main():
     pass
@@ -25,7 +26,7 @@ def splash_screen():
 def instantiate(json: TextIO):
     '''Create a FacebookChat object from supplied file.
     Should only ever recieve files post merge if merging is required.
-    Merging will be handled by a different function.'''
+    Merging will be handled by the file accept dialogue function.'''
 
     try:
         chat_object = FB(json)
@@ -33,6 +34,20 @@ def instantiate(json: TextIO):
         print("Please supply a valid .json Facebook Messenger log")
         sys.exit()
     return chat_object
+
+def file_accept_dialogue():
+    '''Presents the user with a choice of submitting one or more files.
+    If one file is submitted, it is instantiated, if more than one,
+    they are merged and then instantiated.'''
+
+    print('Do you need to merge files for your chat log? (y / n)') #consider adding some exception catching
+    mode = input('>> ')
+    if mode == 'y':
+        file_path = acquire_and_merge()
+    elif mode == 'n':
+        print('Enter path to file: ')
+        file_path = input('>> ')
+    return instantiate(file_path)
 
 def options_list(chat_object):
     '''Presents a list of options for desired stats which map to FacebookChat class methods,
@@ -113,6 +128,9 @@ def command_line_stats_output(exported_stats):
         elif func_name == 'av_words_per_text':
             for party, words in output.items():
                 print(f'The average text sent by {party} contained {words} words.')
+
+def section_header(text: str='Default', border_chr='#'):
+    pass
 
 
 if __name__ == '__main__':
