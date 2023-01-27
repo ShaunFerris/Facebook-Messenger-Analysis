@@ -48,6 +48,12 @@ class FacebookChat():
             msg['sender_name'] = msg['sender_name'].encode('raw_unicode_escape').decode('utf-8')
             if 'content' in msg:
                 msg['content'] = msg['content'].encode('raw_unicode_escape').decode('utf-8')
+
+    def __str__(self):
+        '''Allow a facebookchat object to be printed, returning it's title
+        and the participants.'''
+
+        return f'Facebook Chat titled {self.title} including {str(self.participants)}.'
         
     def get_participants(self) -> list:
         '''Returns a list of participant names'''
@@ -234,7 +240,7 @@ class FacebookChat():
         start, end = self.get_time_interval('datetime')
         return (end - start).days + 1
 
-    def av_words_per_text(self) -> dict[str, int]:#TODO: Test this function
+    def av_words_per_text(self) -> dict[str, int]:
         '''Gets the average words per text message for each party'''
 
         words = self.number_of_words()[1]
