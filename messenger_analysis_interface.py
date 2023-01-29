@@ -20,8 +20,22 @@ from message_merge import acquire_and_merge
 def main():
     pass
 
-def splash_screen():
-    pass
+def splash_screen(border_char: str='#'):
+    '''Clear all current terminal display and display a splash screen
+    with application title and copyright info.'''
+
+    DISPLAY_STR_1 = 'FACEBOOK MESSENGER ANALYSIS UTILITY'
+    DISPLAY_STR_2 = 'Copyright Shaun Ferris 2023'
+    #Clear terminal
+    if sys.platform == 'win32':
+        os.system('cls')
+    else:
+        os.system('clear')
+    #Set display dimensions
+    DISPLAY_WIDTH, DISPLAY_HEIGHT = \
+    shutil.get_terminal_size()[0], shutil.get_terminal_size()[1]
+    display_grid = [[] * DISPLAY_HEIGHT]
+
 
 def instantiate(json: TextIO):
     '''Create a FacebookChat object from supplied file.
@@ -146,8 +160,5 @@ def section_header(display_text: str='Default', border_chr: str='#'):
 
 
 if __name__ == '__main__':
-    #selected = export_stats((options_list(instantiate(\
-        #'/home/shaun/Documents/Coding Projects/Facebook Data Analysis/merged_messagesV2.json'))))
-    #command_line_stats_output(selected)
-
-    section_header('Testing title')
+    selected = export_stats((options_list(file_accept_dialogue())))
+    command_line_stats_output(selected)
