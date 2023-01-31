@@ -19,7 +19,7 @@ class FacebookChat():
     
     Attributes:
         chat_contents (list): List of dicts, each dict representing one message/call
-        participants (dict): List of conversation participants, anonymized to p1, p2 etc
+        participants (list): List of conversation participants
         title (str): Title of the conversation'''
 
     def __init__(self, chat_file: TextIO):
@@ -191,7 +191,7 @@ class FacebookChat():
         total_call_duration = 0
         for msg in self.chat_contents:
             if 'call_duration' in msg\
-            and msg['content'] == 'The video chat has ended.':
+            and msg['content'] == 'The video chat ended.':
                 video_calls_by_party[msg['sender_name']] += 1
                 total_call_duration += msg['call_duration']
         total_call_duration = total_call_duration // 60
