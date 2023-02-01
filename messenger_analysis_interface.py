@@ -5,10 +5,11 @@ neccessary, then take input on which stats to calculate using the FacebookChat c
 Can then send these stats to a seperate script where data visualisation will be calculated and exported to 
 desired file system location.'''
 
+#TODO: Implement search mode, implement top emoji, bug-fix video-chats
+
 import sys
 import os
 import shutil
-import json
 import emoji
 from typing import TextIO, Any
 import numpy as np
@@ -119,6 +120,7 @@ def command_line_stats_output(exported_stats: dict):
     for func_name, output in exported_stats.items():
         if func_name == 'get_participants':
             print(f'The chat participants were: ', end='')
+            #Allow for formatting of any number of participant names
             for i in output:
                 if i != output[-1] and i != output[-2]:
                     print(f'{i}, ', end='')
@@ -152,11 +154,14 @@ def command_line_stats_output(exported_stats: dict):
                 print(f'The average text sent by {party} contained {words} words.')
 
 def section_header(display_text: str='Default', border_chr: str='#'):
+    '''Wraps a border made up of border_chrs around a display_text.
+    Returns the three strings that make up the bordered text.'''
+    
     header_width = len(display_text) + 6
     top_line = (border_chr * header_width) + '\n'
     mid_line = f'{border_chr}  {display_text}  {border_chr}\n'
     bottom_line = (border_chr * header_width) + '\n'
-    return print(top_line, mid_line, bottom_line)
+    return top_line, mid_line, bottom_line
 
 
 if __name__ == '__main__':
