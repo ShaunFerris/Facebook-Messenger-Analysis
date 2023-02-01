@@ -33,6 +33,10 @@ def fb_chat_merge(files_to_merge: list, outfile_name: str='unnamed_merged_messag
         json.dump(output, outfile, indent=2)
 
 def acquire_and_merge():
+    '''File accept dialouge wrapper for the chat merge functionality.
+    Accepts any number of chat files for the conversation as paths and returns the 
+    merged file with a name given by the user.'''
+    
     file_list = []
     print('How many files would you like to merge?')
     num_files_to_merge = int(input('>> '))
