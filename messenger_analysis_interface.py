@@ -17,9 +17,19 @@ import matplotlib.pyplot as plot
 from matplotlib.backends.backend_pdf import PdfPages
 from facebookchat import FacebookChat as FB
 from message_merge import acquire_and_merge
+from time import sleep
 
 def main():
-    pass
+    splash_screen()
+    sleep(5)
+    #Clear terminal
+    if sys.platform == 'win32':
+        os.system('cls')
+    else:
+        os.system('clear')
+    selected = export_stats((options_list(file_accept_dialogue())))
+    command_line_stats_output(selected)
+
 
 def splash_screen(border_char: str='#'):
     '''UNDER CONSTRUCTION
@@ -179,5 +189,4 @@ def section_header(display_text: str='Default', border_chr: str='#'):
 
 
 if __name__ == '__main__':
-    selected = export_stats((options_list(file_accept_dialogue())))
-    command_line_stats_output(selected)
+    main()
