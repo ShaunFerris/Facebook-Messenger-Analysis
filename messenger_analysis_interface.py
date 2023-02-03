@@ -40,8 +40,14 @@ def splash_screen(border_char: str='#'):
     working_space_vert = DISPLAY_HEIGHT - 4
     working_space_hor = DISPLAY_WIDTH - 2
     head = (working_space_vert - 2) // 2
-    display_str += border_char * DISPLAY_WIDTH + '\n' + ((border_char + (' ' * working_space_hor) + border_char + '\n') * head)\
-        + DISPLAY_STR_1 + '\n' + DISPLAY_STR_2 + '\n' + ((border_char + (' ' * working_space_hor) + border_char + '\n')* head)
+    lead_1 = (working_space_hor - len(DISPLAY_STR_1)) // 2
+    lead_2 = (working_space_hor - len(DISPLAY_STR_2)) // 2
+    display_str += border_char * DISPLAY_WIDTH + '\n'\
+        + ((border_char + (' ' * working_space_hor) + border_char + '\n') * head)\
+        + (border_char + (' ' * lead_1) + DISPLAY_STR_1 + (' ' * lead_1) + border_char) + '\n'\
+        + (border_char + (' ' * lead_2) + DISPLAY_STR_2 + (' ' * lead_2) + border_char) + '\n'\
+        + ((border_char + (' ' * working_space_hor) + border_char + '\n')* head)\
+        + border_char * DISPLAY_WIDTH
     print(display_str)
 
 
@@ -173,7 +179,5 @@ def section_header(display_text: str='Default', border_chr: str='#'):
 
 
 if __name__ == '__main__':
-    #selected = export_stats((options_list(file_accept_dialogue())))
-    #command_line_stats_output(selected)
-
-    splash_screen()
+    selected = export_stats((options_list(file_accept_dialogue())))
+    command_line_stats_output(selected)
