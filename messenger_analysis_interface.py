@@ -5,7 +5,7 @@ neccessary, then take input on which stats to calculate using the FacebookChat c
 Can then send these stats to a seperate script where data visualisation will be calculated and exported to 
 desired file system location.'''
 
-#TODO: Implement search mode, implement top emoji, bug-fix video-chats
+#TODO: Implement search mode, implement top emoji
 
 import sys
 import os
@@ -20,6 +20,10 @@ from message_merge import acquire_and_merge
 from time import sleep
 
 def main():
+    '''The main function of the module. Currently prints the splashscreen
+    for 5 seconds, then clears terminal window and enters file select dialogue.
+    A mode select screen to acces future features will be implemented next'''
+    
     splash_screen()
     sleep(5)
     #Clear terminal
@@ -30,6 +34,8 @@ def main():
     selected = export_stats((options_list(file_accept_dialogue())))
     command_line_stats_output(selected)
 
+def mode_select():
+    pass
 
 def splash_screen(border_char: str='#'):
     '''UNDER CONSTRUCTION
