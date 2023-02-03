@@ -22,7 +22,8 @@ def main():
     pass
 
 def splash_screen(border_char: str='#'):
-    '''Clear all current terminal display and display a splash screen
+    '''UNDER CONSTRUCTION
+    Clear all current terminal display and display a splash screen
     with application title and copyright info.'''
 
     DISPLAY_STR_1 = 'FACEBOOK MESSENGER ANALYSIS UTILITY'
@@ -35,7 +36,14 @@ def splash_screen(border_char: str='#'):
     #Set display dimensions
     DISPLAY_WIDTH, DISPLAY_HEIGHT = \
     shutil.get_terminal_size()[0], shutil.get_terminal_size()[1]
-    display_grid = [[] * DISPLAY_HEIGHT]
+    display_str = ''
+    working_space_vert = DISPLAY_HEIGHT - 4
+    working_space_hor = DISPLAY_WIDTH - 2
+    head = (working_space_vert - 2) // 2
+    display_str += border_char * DISPLAY_WIDTH + '\n' + ((border_char + (' ' * working_space_hor) + border_char + '\n') * head)\
+        + DISPLAY_STR_1 + '\n' + DISPLAY_STR_2 + '\n' + ((border_char + (' ' * working_space_hor) + border_char + '\n')* head)
+    print(display_str)
+
 
 
 def instantiate(json: TextIO):
@@ -165,5 +173,7 @@ def section_header(display_text: str='Default', border_chr: str='#'):
 
 
 if __name__ == '__main__':
-    selected = export_stats((options_list(file_accept_dialogue())))
-    command_line_stats_output(selected)
+    #selected = export_stats((options_list(file_accept_dialogue())))
+    #command_line_stats_output(selected)
+
+    splash_screen()
