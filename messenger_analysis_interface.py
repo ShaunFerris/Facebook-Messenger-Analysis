@@ -23,14 +23,11 @@ def main():
     '''The main function of the module. Currently prints the splashscreen
     for 5 seconds, then clears terminal window and enters file select dialogue.
     A mode select screen to acces future features will be implemented next'''
-    
+
     splash_screen()
     sleep(5)
     #Clear terminal
-    if sys.platform == 'win32':
-        os.system('cls')
-    else:
-        os.system('clear')
+    os.system('cls' if sys.platform == 'win32' else 'clear')
     selected = export_stats((options_list(file_accept_dialogue())))
     command_line_stats_output(selected)
 
@@ -44,29 +41,21 @@ def splash_screen(border_char: str='#'):
 
     DISPLAY_STR_1 = 'FACEBOOK MESSENGER ANALYSIS UTILITY'
     DISPLAY_STR_2 = 'Copyright Shaun Ferris 2023'
-    #Clear terminal
-    if sys.platform == 'win32':
-        os.system('cls')
-    else:
-        os.system('clear')
-    #Set display dimensions
-    DISPLAY_WIDTH, DISPLAY_HEIGHT = \
-    shutil.get_terminal_size()[0], shutil.get_terminal_size()[1]
-    display_str = ''
-    working_space_vert = DISPLAY_HEIGHT - 4
-    working_space_hor = DISPLAY_WIDTH - 2
-    head = (working_space_vert - 2) // 2
-    lead_1 = (working_space_hor - len(DISPLAY_STR_1)) // 2
-    lead_2 = (working_space_hor - len(DISPLAY_STR_2)) // 2
-    display_str += border_char * DISPLAY_WIDTH + '\n'\
-        + ((border_char + (' ' * working_space_hor) + border_char + '\n') * head)\
-        + (border_char + (' ' * lead_1) + DISPLAY_STR_1 + (' ' * lead_1) + border_char) + '\n'\
-        + (border_char + (' ' * lead_2) + DISPLAY_STR_2 + (' ' * lead_2) + border_char) + '\n'\
-        + ((border_char + (' ' * working_space_hor) + border_char + '\n')* head)\
-        + border_char * DISPLAY_WIDTH
+    # Clear terminal
+    os.system('cls' if sys.platform == 'win32' else 'clear')
+    # Get terminal dimensions
+    width, height = shutil.get_terminal_size()
+    # Calculate display string
+    head = (height - 4) // 2
+    lead_1 = (width - len(DISPLAY_STR_1)) // 2 - len(border_char)
+    lead_2 = (width - len(DISPLAY_STR_2)) // 2 - len(border_char)
+    display_str = f'{border_char * width}\n'
+    display_str += f'{border_char + " " * (width - 2) + border_char}\n' * head
+    display_str += f'{border_char + " " * lead_1 + DISPLAY_STR_1 + " " * lead_1 + border_char}\n'
+    display_str += f'{border_char + " " * lead_2 + DISPLAY_STR_2 + " " * lead_2 + border_char}\n'
+    display_str += f'{border_char + " " * (width - 2) + border_char}\n' * head
+    display_str += f'{border_char * width}'
     print(display_str)
-
-
 
 def instantiate(json: TextIO):
     '''Create a FacebookChat object from supplied file.
@@ -188,11 +177,9 @@ def section_header(display_text: str='Default', border_chr: str='#'):
     Returns the three strings that make up the bordered text.'''
     
     header_width = len(display_text) + 6
-    top_line = (border_chr * header_width) + '\n'
-    mid_line = f'{border_chr}  {display_text}  {border_chr}\n'
-    bottom_line = (border_chr * header_width) + '\n'
-    return top_line, mid_line, bottom_line
-
+    return (border_chr * header_width + '\n', 
+        f'{border_chr}  {display_text}  {border_chr}\n',
+        border_chr * header_width + '\n')
 
 if __name__ == '__main__':
     main()
