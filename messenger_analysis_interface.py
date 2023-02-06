@@ -32,7 +32,19 @@ def main():
     command_line_stats_output(selected)
 
 def mode_select():
-    pass
+    '''Not yet implemented into main function.
+    Present a choice of modes to the user, mode choice will determine
+    which functionality the user has access to.'''
+
+    while mode != '1' or mode != '2' or mode != '3':
+        print('Which function would you like to use first?')
+        print('CLI Stats (1)\nKey Word Search (2)\nReport Mode(3)')
+        mode = input('>> ')
+        if mode == '1' or mode == '2' or mode == '3':
+            return mode
+        else:
+            print('Please enter a valid selection.')
+            os.system('cls' if sys.platform == 'win32' else 'clear')
 
 def splash_screen(border_char: str='#'):
     '''UNDER CONSTRUCTION
