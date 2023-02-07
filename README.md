@@ -20,7 +20,7 @@ Under active construction, this script provides functionality to take a selectio
 
 ### Usage of messenger_analysis_interface.py
 
-In the current verision running this module will initiate the file select dialouge. The user will be prompted as to wether they need to merge their files before beginning, and will then be prompted to supply one or more file paths. If the files are not in the same directory as the scripts, supply the full file path, otherwise just the file name will suffice. If a merged file is created it will be created in the working directory. Functionality to export it directly to another directory may be added in future.
+In the current verision running this module will initiate the mode select didalogue. Currently only the CLI stats mode has been implemented. When selected this mode will initiate the file select dialogue. The user will be prompted as to wether they need to merge their files before beginning, and will then be prompted to supply one or more file paths. If the files are not in the same directory as the scripts, supply the full file path, otherwise just the file name will suffice. If a merged file is created it will be created in the working directory. Functionality to export it directly to another directory may be added in future.
 
 Next the user will be prompted to select from a list the stats they wish to extract from the chat record, and the results will be displayed as readable scentences in the terminal window.
 
