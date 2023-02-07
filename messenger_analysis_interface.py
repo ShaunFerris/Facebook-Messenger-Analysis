@@ -28,12 +28,25 @@ def main():
     sleep(5)
     #Clear terminal
     os.system('cls' if sys.platform == 'win32' else 'clear')
-    selected = export_stats((options_list(file_accept_dialogue())))
-    command_line_stats_output(selected)
+    while True:
+        print('Press ctrl + C at any time to exit..')
+        try:
+            mode = mode_select()
+            if mode == '1':
+                selected = export_stats((options_list(file_accept_dialogue())))
+                command_line_stats_output(selected)
+                print('Input 1 to go back to mode select menu')
+                back = input('>> ')
+                if back == '1':
+                    continue
+        except KeyboardInterrupt:
+            print('Thankyou for using this utility!')
+            sleep(3)
+            os.system('cls' if sys.platform == 'win32' else 'clear')
+            sys,exit()
 
 def mode_select():
-    '''Not yet implemented into main function.
-    Present a choice of modes to the user, mode choice will determine
+    '''Present a choice of modes to the user, mode choice will determine
     which functionality the user has access to.'''
 
     while mode != '1' or mode != '2' or mode != '3':
