@@ -51,6 +51,7 @@ def mode_select():
 
     while mode != '1' or mode != '2' or mode != '3':
         print('Which function would you like to use first?')
+        print('Currently only option 1 works')
         print('CLI Stats (1)\nKey Word Search (2)\nReport Mode(3)')
         mode = input('>> ')
         if mode == '1' or mode == '2' or mode == '3':
