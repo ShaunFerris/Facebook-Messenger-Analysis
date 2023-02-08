@@ -26,16 +26,16 @@ def main():
 
     splash_screen()
     sleep(5)
-    #Clear terminal
     os.system('cls' if sys.platform == 'win32' else 'clear')
+    file = file_accept_dialogue()
     while True:
         print('Press ctrl + C at any time to exit..')
         try:
             mode = mode_select()
             if mode == '1':
-                selected = export_stats((options_list(file_accept_dialogue())))
+                selected = export_stats((options_list(file)))
                 command_line_stats_output(selected)
-                print('Input 1 to go back to mode select menu')
+                print('Input 1 to go back to mode select menu, or Ctrl + C to exit')
                 back = input('>> ')
                 if back == '1':
                     continue
@@ -49,6 +49,7 @@ def mode_select():
     '''Present a choice of modes to the user, mode choice will determine
     which functionality the user has access to.'''
 
+    mode = ''
     while mode != '1' or mode != '2' or mode != '3':
         print('Which function would you like to use first?')
         print('Currently only option 1 works')
