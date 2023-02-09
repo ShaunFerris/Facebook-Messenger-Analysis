@@ -137,31 +137,20 @@ class FacebookChat():
             top_words[name] = p_counter.most_common(number)
         return top_words
 
-    def search_words(self, participant: str, word: str) -> tuple[str, int]:
-        '''Runs self.common_words() witht he max number and iterates over the result to 
-        find how many times the input word was used by input participant
+    def message_search(self, search_term: str) -> dict[str, int]:
+        '''Searches for the input search term in every text message
+        in the chat. 
         
-        Args:
-            participant(str): should match the name of a particpant, their words 
-            will be counted and searched
-
-            word(str): the word to look for in th participants word counts
-
-        Returns:
-            A tuple containing the searched word and how many times it was used
-            or None if the word was not found'''
+        Returns the number of times the search term appeared in messages
+        sent by each of the participants.'''
         
-        word = word.lower()
-        words_by_party = self.words_in_txts()
-        number_of_words = len(words_by_party[participant])
-        to_search = self.common_words(number=number_of_words)[participant]
-        found = 0
-        for tup in to_search:
-            if tup[0] == word:
-                found = 1
-                return tup
-        if found == 0:
-            return None
+        results = {}
+        messages = self.chat_contents
+        for message in messages:
+            if 'call_duration' not in message and 'content' in message:
+                if search_term in message['content']:
+                    results[message['sender_name']] = results.get(message['sender_name'], 0) + 1
+        return results
 
     def voice_calls_analysis(self) -> tuple[dict[str, int], int]:
         '''Counts the number and duration of voice calls made between parites in the chat
@@ -180,7 +169,7 @@ class FacebookChat():
         total_duration = total_duration // 60
         return voice_calls_by_party, total_duration
 
-    def video_calls_analysis(self) -> tuple[dict[str, int], int]: #BUG TO FIND - returning 0s
+    def video_calls_analysis(self) -> tuple[dict[str, int], int]:
         '''Counts the number and duration of video calls made between parites in the chat
         
         Returns:
