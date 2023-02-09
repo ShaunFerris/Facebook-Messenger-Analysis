@@ -143,12 +143,12 @@ class FacebookChat():
         
         Returns the number of times the search term appeared in messages
         sent by each of the participants.'''
-        
+
         results = {}
         messages = self.chat_contents
         for message in messages:
             if 'call_duration' not in message and 'content' in message:
-                if search_term in message['content']:
+                if search_term.lower() in message['content'].lower():
                     results[message['sender_name']] = results.get(message['sender_name'], 0) + 1
         return results
 
