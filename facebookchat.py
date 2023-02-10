@@ -146,11 +146,23 @@ class FacebookChat():
 
         results = {}
         messages = self.chat_contents
-        for message in messages:
-            if 'call_duration' not in message and 'content' in message:
-                if search_term.lower() in message['content'].lower():
-                    results[message['sender_name']] = results.get(message['sender_name'], 0) + 1
+        for msg in messages:
+            if 'call_duration' not in msg and 'content' in msg:
+                if search_term.lower() in msg['content'].lower():
+                    results[msg['sender_name']] = results.get(msg['sender_name'], 0) + 1
         return results
+
+    def search_source(self, search_term: str) -> list[dict[str, str]]:
+        '''Searches messages for the search term provided and returns
+        the full text of all messages that contain it. Case insensitive.'''
+
+        hit_msgs = []
+        messages = self.chat_contents
+        for msg in messages:
+            if 'call_duration' not in msg and 'content' in msg:
+                if search_term.lower() in msg['content'].lower():
+                    hit_msgs.append({msg['sender_name']: msg['content']})
+        return hit_msgs
 
     def voice_calls_analysis(self) -> tuple[dict[str, int], int]:
         '''Counts the number and duration of voice calls made between parites in the chat
