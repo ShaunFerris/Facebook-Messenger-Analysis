@@ -26,20 +26,31 @@ def main():
     sleep(5)
     os.system('cls' if sys.platform == 'win32' else 'clear')
     chat = file_accept_dialogue()
+    os.system('cls' if sys.platform == 'win32' else 'clear')
     while True:
+        print(f'The currently loaded chat is titled: {chat.title}')
         print('Press ctrl + C at any time to exit..')
+        print('\n')
         try:
             mode = mode_select()
+            os.system('cls' if sys.platform == 'win32' else 'clear')
             if mode == '1':
                 selected = export_stats((options_list(chat)))
                 command_line_stats_output(selected)
                 print('Input 1 to go back to mode select menu, or Ctrl + C to exit')
                 back = input('>> ')
                 if back == '1':
+                    os.system('cls' if sys.platform == 'win32' else 'clear')
                     continue
             elif mode == '2':
                 search_mode(chat)
+                print('Input 1 to go back to mode select menu, or Ctrl + C to exit')
+                back = input('>> ')
+                if back == '1':
+                    os.system('cls' if sys.platform == 'win32' else 'clear')
+                    continue
         except KeyboardInterrupt:
+            os.system('cls' if sys.platform == 'win32' else 'clear')
             print('Thankyou for using this utility!')
             sleep(3)
             os.system('cls' if sys.platform == 'win32' else 'clear')
