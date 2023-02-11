@@ -1,11 +1,9 @@
-#UNDER CONSTRUCTION
-
 '''Main file for user interface. Will print a splashscreen in terminal, takefiles from users, merge if
 neccessary, then take input on which stats to calculate using the FacebookChat class methods.
 Can then send these stats to a seperate script where data visualisation will be calculated and exported to 
 desired file system location.'''
 
-#TODO: Implement search mode, implement top emoji
+#TODO: Implement top emoji
 
 import sys
 import os
@@ -27,23 +25,25 @@ def main():
     splash_screen()
     sleep(5)
     os.system('cls' if sys.platform == 'win32' else 'clear')
-    file = file_accept_dialogue()
+    chat = file_accept_dialogue()
     while True:
         print('Press ctrl + C at any time to exit..')
         try:
             mode = mode_select()
             if mode == '1':
-                selected = export_stats((options_list(file)))
+                selected = export_stats((options_list(chat)))
                 command_line_stats_output(selected)
                 print('Input 1 to go back to mode select menu, or Ctrl + C to exit')
                 back = input('>> ')
                 if back == '1':
                     continue
+            elif mode == '2':
+                search_mode(chat)
         except KeyboardInterrupt:
             print('Thankyou for using this utility!')
             sleep(3)
             os.system('cls' if sys.platform == 'win32' else 'clear')
-            sys,exit()
+            sys.exit()
 
 def mode_select():
     '''Present a choice of modes to the user, mode choice will determine
@@ -52,8 +52,8 @@ def mode_select():
     mode = ''
     while mode != '1' or mode != '2' or mode != '3':
         print('Which function would you like to use first?')
-        print('Currently only option 1 works')
-        print('CLI Stats (1)\nKey Word Search (2)\nReport Mode(3)')
+        print('Currently only option 1 and 2 work')
+        print('CLI Stats (1)\nSearch Mode (2)\nReport Mode(3)')
         mode = input('>> ')
         if mode == '1' or mode == '2' or mode == '3':
             return mode
@@ -105,9 +105,9 @@ def file_accept_dialogue():
 
     print('Do you need to merge files for your chat log? (y / n)') #consider adding some exception catching
     mode = input('>> ')
-    if mode == 'y':
+    if mode.lower() == 'y':
         file_path = acquire_and_merge()
-    elif mode == 'n':
+    elif mode.lower() == 'n':
         print('Enter path to file: ')
         file_path = input('>> ')
     return instantiate(file_path)
@@ -198,6 +198,28 @@ def command_line_stats_output(exported_stats: dict):
         elif func_name == 'av_words_per_text':
             for party, words in output.items():
                 print(f'The average text sent by {party} contained {words} words.')
+
+def search_mode(chat):
+    '''Second function option for the main loop. Takes an instantiated facebookchat
+    object as argument.
+    Provides functionality for use count and original message containing searched terms.
+    
+    Export results as a text file to come.'''
+
+    print('Enter your desired search term')
+    search_term = input('>> ')
+    search_results = chat.message_search(search_term)
+    print(f"Count of messages containing '{search_term}' for each participant:")
+    for participant, count in search_results.items():
+        print(f"{participant}: {count}")
+    show_messages = input(f"Do you want to see messages containing '{search_term}'? (y/n) ")
+    if show_messages.lower() == 'y':
+        print(f"Messages containing '{search_term}':")
+        hit_msgs = chat.search_source(search_term)
+        for hit in hit_msgs:
+            for sender, msg in hit.items():
+                print(sender + ':')
+                print(msg + '\n')
 
 def section_header(display_text: str='Default', border_chr: str='#'):
     '''Wraps a border made up of border_chrs around a display_text.
