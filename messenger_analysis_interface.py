@@ -37,6 +37,15 @@ def main():
             if mode == '1':
                 selected = export_stats((options_list(chat)))
                 command_line_stats_output(selected)
+                save_to_file = input("Do you want to save the output to a file? (y/n)\n>> ")
+                if save_to_file.lower() == 'y':
+                    with open(f'Stats output for {chat.title} chat.txt', 'w') as f:
+                        # Redirect output to file
+                        original_stdout = sys.stdout
+                        sys.stdout = f
+                        command_line_stats_output(selected)
+                        sys.stdout = original_stdout
+                        print("Output saved to file.")
                 print('Input 1 to go back to mode select menu, or Ctrl + C to exit')
                 back = input('>> ')
                 if back == '1':
@@ -64,7 +73,7 @@ def mode_select():
     while mode != '1' or mode != '2' or mode != '3':
         print('Which function would you like to use first?')
         print('Currently only option 1 and 2 work')
-        print('CLI Stats (1)\nSearch Mode (2)\nReport Mode(3)')
+        print('CLI Stats (1)\nSearch Mode (2)\nGraph Report Mode (3)')
         mode = input('>> ')
         if mode == '1' or mode == '2' or mode == '3':
             return mode
