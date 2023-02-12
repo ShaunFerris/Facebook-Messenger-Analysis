@@ -29,8 +29,7 @@ def main():
     os.system('cls' if sys.platform == 'win32' else 'clear')
     while True:
         print(f'The currently loaded chat is titled: {chat.title}')
-        print('Press ctrl + C at any time to exit..')
-        print('\n')
+        print('Press ctrl + C at any time to exit..\n')
         try:
             mode = mode_select()
             os.system('cls' if sys.platform == 'win32' else 'clear')
@@ -44,6 +43,7 @@ def main():
                         original_stdout = sys.stdout
                         sys.stdout = f
                         command_line_stats_output(selected)
+                        #Restore original standard output
                         sys.stdout = original_stdout
                         print("Output saved to file.")
                 print('Input 1 to go back to mode select menu, or Ctrl + C to exit')
@@ -53,6 +53,16 @@ def main():
                     continue
             elif mode == '2':
                 search_mode(chat)
+                save_to_file = input("Do you want to save the output to a file? (y/n)\n>> ")
+                if save_to_file.lower() == 'y':
+                    with open(f'Search output for {chat.title} chat.txt', 'w') as f:
+                        # Redirect output to file
+                        original_stdout = sys.stdout
+                        sys.stdout = f
+                        command_line_stats_output(selected)
+                        #Restore original standard output
+                        sys.stdout = original_stdout
+                        print("Output saved to file.")
                 print('Input 1 to go back to mode select menu, or Ctrl + C to exit')
                 back = input('>> ')
                 if back == '1':
