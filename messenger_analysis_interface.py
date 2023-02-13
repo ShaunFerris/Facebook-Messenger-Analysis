@@ -133,7 +133,7 @@ def file_accept_dialogue():
     
     Returns the instantiated facebookchat object.'''
 
-    print('Do you need to merge files for your chat log? (y / n)') #consider adding some exception catching
+    print('Do you need to merge files for your chat log? (y / n)')
     mode = input('>> ')
     if mode.lower() == 'y':
         file_path = acquire_and_merge()
@@ -232,9 +232,7 @@ def command_line_stats_output(exported_stats: dict):
 def search_mode(chat):
     '''Second function option for the main loop. Takes an instantiated facebookchat
     object as argument.
-    Provides functionality for use count and original message containing searched terms.
-    
-    Export results as a text file to come.'''
+    Provides functionality for use count and original message containing searched terms.'''
 
     print('Enter your desired search term')
     search_term = input('>> ')
