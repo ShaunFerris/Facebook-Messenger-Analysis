@@ -246,8 +246,7 @@ def search_mode(chat):
         hit_msgs = chat.search_source(search_term)
         for hit in hit_msgs:
             for sender, msg in hit.items():
-                print(sender + ':')
-                print(msg + '\n')
+                print(f'Message from: {sender}\n{msg}')
 
 def section_header(display_text: str='Default', border_chr: str='#'):
     '''Wraps a border made up of border_chrs around a display_text.

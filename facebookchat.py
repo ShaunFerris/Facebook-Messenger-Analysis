@@ -12,7 +12,7 @@ import emoji
 from typing import TextIO
 from collections import Counter
 from copy import deepcopy
-from datetime import datetime
+from datetime import datetime, timezone
 
 class FacebookChat():
     '''A module for processing and retrieving relvent data from the JSON records of a messenger conversation.
@@ -161,7 +161,9 @@ class FacebookChat():
         for msg in messages:
             if 'call_duration' not in msg and 'content' in msg:
                 if search_term.lower() in msg['content'].lower():
-                    hit_msgs.append({msg['sender_name']: msg['content']})
+                    timestamp = datetime.fromtimestamp(msg['timestamp_ms']/1000, timezone.utc).astimezone()
+                    timestamp_str = timestamp.strftime('%Y-%m-%d')
+                    hit_msgs.append({msg['sender_name']: msg['content'] + '\n' + timestamp_str + '\n'})
         return hit_msgs
 
     def voice_calls_analysis(self) -> tuple[dict[str, int], int]:
