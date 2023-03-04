@@ -29,7 +29,7 @@ class FacebookChat():
         Args: 
         chat_file(.json):JSON chat-log in the format provided by facebook. 
         NOTE: some large chats are provided in multiple JSON files,
-        these muct be merged first to get accuarate data of the whole chat'''
+        these muct be merged first to get accurate data of the whole chat'''
 
         #read the .json file and set the class attributes
         with open(chat_file, 'r') as f:
@@ -254,3 +254,15 @@ class FacebookChat():
         '''Gets the average number of text messages sent per day'''
         
         return int(self.number_of_texts()[0] / self.get_number_days())
+    
+    def photos_by_sender(self) -> dict[str, list[dict[str, str]]]:
+        '''NOTE: Currently needs testing
+        Creates a dictionary of sender_name: list of images sent.
+        The list contains a dict for each image of format date_sent: file name'''
+
+        sorted_photos = {sender: [] for sender in self.participants}
+        for msg in self.chat_contents:
+            if 'photos' in msg:
+                sent_time = datetime.fromtimestamp(msg['timestamp_ms']/1000)
+                sorted_photos[msg['sender_name']].append({sent_time: msg['photos']['uri'].split('/')[-1]})
+        return sorted_photos
