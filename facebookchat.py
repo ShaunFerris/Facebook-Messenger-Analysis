@@ -255,15 +255,15 @@ class FacebookChat():
         
         return int(self.number_of_texts()[0] / self.get_number_days())
     
-    def photos_by_sender(self) -> dict[str, list[dict[str, str]]]:
+    def images_by_sender(self) -> dict[str, list[dict[str, str]]]:
         '''Creates a dictionary of sender_name: list of images sent.
         The list contains a dict for each image of format date_sent: file name'''
 
-        sorted_photos = {sender: [] for sender in self.participants}
+        sorted_images = {sender: [] for sender in self.participants}
         for msg in self.chat_contents:
             if 'photos' in msg:
                 sent_time = datetime.fromtimestamp(msg['timestamp_ms']/1000)
                 sent_time_str = sent_time.strftime('%Y-%m-%d %H:%M:%S')
-                photo_filenames = [p['uri'].split('/')[-1] for p in msg['photos']]
-                sorted_photos[msg['sender_name']].append({sent_time_str: photo_filenames})
-        return sorted_photos
+                image_filenames = [p['uri'].split('/')[-1] for p in msg['photos']]
+                sorted_images[msg['sender_name']].append({sent_time_str: image_filenames})
+        return sorted_images
