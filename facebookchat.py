@@ -263,7 +263,7 @@ class FacebookChat():
         for msg in self.chat_contents:
             if 'photos' in msg:
                 sent_time = datetime.fromtimestamp(msg['timestamp_ms']/1000)
-                sent_time_str = sent_time.strftime('%Y-%m-%d %H:%M:%S')
+                sent_time_str = sent_time.strftime('%Y-%m-%d')
                 image_filenames = [p['uri'].split('/')[-1] for p in msg['photos']]
                 sorted_images[msg['sender_name']].append({sent_time_str: image_filenames})
         return sorted_images
