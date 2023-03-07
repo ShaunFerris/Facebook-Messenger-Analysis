@@ -3,7 +3,8 @@
 This script is intended for sorting the images associated with a facebook 
 messenger conversation.'''
 
-import os 
+import os
+import shutil
 import datetime
 from facebookchat import FacebookChat as FB
 
@@ -61,6 +62,17 @@ def sort_pictures(unsorted, destination_file_struct, images_by_sender):
             sent_date = image.keys()[0]
             file_name = image.values()[0]
             year, month, day = sent_date.split('-')
-            pass
+            year_folder = os.path.join(destination_file_struct, year)
+            month_name = sent_date.split('-')[1]
+            month_folder = os.path.join(year_folder, month_name)
+            src_path = os.path.join(unsorted, file_name)
+            dst_name = sender_name + file_name
+            # Append sender name to the file name to keep track of who sent what
+            dst_path = os.path.join(month_folder, dst_name)
+            if not os.path.exists(month_folder):
+                os.makedirs(month_folder)
+            shutil.move(src_path, dst_path)
+
+
 
 print(test_chat.images_by_sender())
