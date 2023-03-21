@@ -73,6 +73,12 @@ def sort_pictures(unsorted, destination_file_struct, images_by_sender):
                 os.makedirs(month_folder)
             shutil.move(src_path, dst_path)
 
+def main():
+    '''Main loop for running the photo sorting functions as a standalone
+    CLI based applications. Prompts the user for file locations and names
+    that the preceeding methods use.'''
 
+    
 
-print(test_chat.images_by_sender())
+if __name__ == '__main__':
+    main()
