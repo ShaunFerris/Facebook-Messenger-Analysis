@@ -3,7 +3,7 @@ neccessary, then take input on which stats to calculate using the FacebookChat c
 Can then send these stats to a seperate script where data visualisation will be calculated and exported to 
 desired file system location.'''
 
-#TODO: Implement top emoji
+#TODO: Implement top emoji, pdf reporting/graphing
 
 import sys
 import os
@@ -68,6 +68,8 @@ def main():
                 if back == '1':
                     os.system('cls' if sys.platform == 'win32' else 'clear')
                     continue
+            elif mode == '3':
+                pass
         except KeyboardInterrupt:
             os.system('cls' if sys.platform == 'win32' else 'clear')
             print('Thankyou for using this utility!')
@@ -247,6 +249,12 @@ def search_mode(chat):
         for hit in hit_msgs:
             for sender, msg in hit.items():
                 print(f'Message from: {sender}\n{msg}')
+
+def graph_reporting(chat):
+    '''Third function option for the main loop. Takes an instantiated facebookchat
+    object as argument. Returns a pdf of selected stats plotted as graphs.'''
+
+    pass
 
 def section_header(display_text: str='Default', border_chr: str='#'):
     '''Wraps a border made up of border_chrs around a display_text.
