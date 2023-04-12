@@ -18,9 +18,11 @@ from message_merge import acquire_and_merge
 from time import sleep
 
 def main():
-    '''The main function of the module. Currently prints the splashscreen
+    '''
+    The main function of the module. Currently prints the splashscreen
     for 5 seconds, then clears terminal window and enters file select dialogue.
-    A mode select screen to acces future features will be implemented next'''
+    A mode select screen to acces future features will be implemented next
+    '''
 
     splash_screen()
     sleep(5)
@@ -78,8 +80,10 @@ def main():
             sys.exit()
 
 def mode_select():
-    '''Present a choice of modes to the user, mode choice will determine
-    which functionality the user has access to.'''
+    '''
+    Present a choice of modes to the user, mode choice will determine
+    which functionality the user has access to.
+    '''
 
     mode = ''
     while mode != '1' or mode != '2' or mode != '3':
@@ -94,9 +98,10 @@ def mode_select():
             os.system('cls' if sys.platform == 'win32' else 'clear')
 
 def splash_screen(border_char: str='#'):
-    '''UNDER CONSTRUCTION
+    '''
     Clear all current terminal display and display a splash screen
-    with application title and copyright info.'''
+    with application title and copyright info.
+    '''
 
     DISPLAY_STR_1 = 'FACEBOOK MESSENGER ANALYSIS UTILITY'
     DISPLAY_STR_2 = 'Copyright Shaun Ferris 2023'
@@ -117,9 +122,11 @@ def splash_screen(border_char: str='#'):
     print(display_str)
 
 def instantiate(json: TextIO):
-    '''Create a FacebookChat object from supplied file.
+    '''
+    Create a FacebookChat object from supplied file.
     Should only ever recieve files post merge if merging is required.
-    Merging will be handled by the file accept dialogue function.'''
+    Merging will be handled by the file accept dialogue function.
+    '''
 
     try:
         chat_object = FB(json)
@@ -129,11 +136,13 @@ def instantiate(json: TextIO):
     return chat_object
 
 def file_accept_dialogue():
-    '''Presents the user with a choice of submitting one or more files.
+    '''
+    Presents the user with a choice of submitting one or more files.
     If one file is submitted, it is instantiated, if more than one,
     they are merged and then instantiated.
     
-    Returns the instantiated facebookchat object.'''
+    Returns the instantiated facebookchat object.
+    '''
 
     print('Do you need to merge files for your chat log? (y / n)')
     mode = input('>> ')
@@ -145,14 +154,16 @@ def file_accept_dialogue():
     return instantiate(file_path)
 
 def options_list(chat_object):
-    '''Presents a list of options for desired stats which map to FacebookChat class methods,
+    '''
+    Presents a list of options for desired stats which map to FacebookChat class methods,
     takes user input for which stats to get and prepares a list of ready to go methods.
 
     Args: 
         FacebookChat object passed from instantiate method
 
     Returns:
-        A list of the desired methods to run which can then be invoked iteratively'''
+        A list of the desired methods to run which can then be invoked iteratively
+        '''
 
     command_list = []
     OPTIONS = {
@@ -180,20 +191,24 @@ def options_list(chat_object):
     return command_list
     
 def export_stats(command_list: list) -> dict[str, Any]:
-    '''Function to call the list of desired FacebookChat class methods provided
+    '''
+    Function to call the list of desired FacebookChat class methods provided
     by the options list function, then export their results.
     
-    Returns a dict of calculated stats keyed with the __name__ of function called.'''
+    Returns a dict of calculated stats keyed with the __name__ of function called.
+    '''
 
     exported_stats = {f.__name__: f() for f in command_list}
     return exported_stats
 
 def command_line_stats_output(exported_stats: dict):
-    '''Main flow control loop for returning the desired stats as readable strings.
+    '''
+    Main flow control loop for returning the desired stats as readable strings.
     Takes the exported stats dict from the export stats command, and formats the
     data into a string that corresponds to the function that produced it.
     
-    Prints these strings to the terminal.'''
+    Prints these strings to the terminal.
+    '''
 
     for func_name, output in exported_stats.items():
         if func_name == 'get_participants':
@@ -232,9 +247,11 @@ def command_line_stats_output(exported_stats: dict):
                 print(f'The average text sent by {party} contained {words} words.')
 
 def search_mode(chat):
-    '''Second function option for the main loop. Takes an instantiated facebookchat
+    '''
+    Second function option for the main loop. Takes an instantiated facebookchat
     object as argument.
-    Provides functionality for use count and original message containing searched terms.'''
+    Provides functionality for use count and original message containing searched terms.
+    '''
 
     print('Enter your desired search term')
     search_term = input('>> ')
@@ -251,14 +268,18 @@ def search_mode(chat):
                 print(f'Message from: {sender}\n{msg}')
 
 def graph_reporting(chat):
-    '''Third function option for the main loop. Takes an instantiated facebookchat
-    object as argument. Returns a pdf of selected stats plotted as graphs.'''
+    '''
+    Third function option for the main loop. Takes an instantiated facebookchat
+    object as argument. Returns a pdf of selected stats plotted as graphs.
+    '''
 
     pass
 
 def section_header(display_text: str='Default', border_chr: str='#'):
-    '''Wraps a border made up of border_chrs around a display_text.
-    Returns the three strings that make up the bordered text.'''
+    '''
+    Wraps a border made up of border_chrs around a display_text.
+    Returns the three strings that make up the bordered text.
+    '''
     
     header_width = len(display_text) + 6
     return (border_chr * header_width + '\n', 
