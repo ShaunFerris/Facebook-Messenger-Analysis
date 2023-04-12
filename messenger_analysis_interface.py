@@ -23,7 +23,6 @@ def main():
     for 5 seconds, then clears terminal window and enters file select dialogue.
     A mode select screen to acces future features will be implemented next
     '''
-
     splash_screen()
     sleep(5)
     os.system('cls' if sys.platform == 'win32' else 'clear')
@@ -84,7 +83,6 @@ def mode_select():
     Present a choice of modes to the user, mode choice will determine
     which functionality the user has access to.
     '''
-
     mode = ''
     while mode != '1' or mode != '2' or mode != '3':
         print('Which function would you like to use first?')
@@ -102,7 +100,6 @@ def splash_screen(border_char: str='#'):
     Clear all current terminal display and display a splash screen
     with application title and copyright info.
     '''
-
     DISPLAY_STR_1 = 'FACEBOOK MESSENGER ANALYSIS UTILITY'
     DISPLAY_STR_2 = 'Copyright Shaun Ferris 2023'
     # Clear terminal
@@ -127,7 +124,6 @@ def instantiate(json: TextIO):
     Should only ever recieve files post merge if merging is required.
     Merging will be handled by the file accept dialogue function.
     '''
-
     try:
         chat_object = FB(json)
     except:
@@ -143,7 +139,6 @@ def file_accept_dialogue():
     
     Returns the instantiated facebookchat object.
     '''
-
     print('Do you need to merge files for your chat log? (y / n)')
     mode = input('>> ')
     if mode.lower() == 'y':
@@ -164,7 +159,6 @@ def options_list(chat_object):
     Returns:
         A list of the desired methods to run which can then be invoked iteratively
         '''
-
     command_list = []
     OPTIONS = {
         1: chat_object.get_participants, 2: chat_object.get_number_days,
@@ -197,7 +191,6 @@ def export_stats(command_list: list) -> dict[str, Any]:
     
     Returns a dict of calculated stats keyed with the __name__ of function called.
     '''
-
     exported_stats = {f.__name__: f() for f in command_list}
     return exported_stats
 
@@ -209,7 +202,6 @@ def command_line_stats_output(exported_stats: dict):
     
     Prints these strings to the terminal.
     '''
-
     for func_name, output in exported_stats.items():
         if func_name == 'get_participants':
             print(f'The chat participants were: ', end='')
@@ -252,7 +244,6 @@ def search_mode(chat):
     object as argument.
     Provides functionality for use count and original message containing searched terms.
     '''
-
     print('Enter your desired search term')
     search_term = input('>> ')
     search_results = chat.message_search(search_term)
@@ -272,7 +263,6 @@ def graph_reporting(chat):
     Third function option for the main loop. Takes an instantiated facebookchat
     object as argument. Returns a pdf of selected stats plotted as graphs.
     '''
-
     pass
 
 def section_header(display_text: str='Default', border_chr: str='#'):
@@ -280,7 +270,6 @@ def section_header(display_text: str='Default', border_chr: str='#'):
     Wraps a border made up of border_chrs around a display_text.
     Returns the three strings that make up the bordered text.
     '''
-    
     header_width = len(display_text) + 6
     return (border_chr * header_width + '\n', 
         f'{border_chr}  {display_text}  {border_chr}\n',

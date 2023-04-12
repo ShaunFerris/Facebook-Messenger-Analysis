@@ -23,7 +23,6 @@ class FacebookChat():
         participants (list): List of conversation participants
         title (str): Title of the conversation
         '''
-
     def __init__(self, chat_file: TextIO):
         '''
         Parses the JSON, separates the participant data and the 
@@ -34,7 +33,6 @@ class FacebookChat():
         NOTE: some large chats are provided in multiple JSON files,
         these muct be merged first to get accurate data of the whole chat
         '''
-
         #read the .json file and set the class attributes
         with open(chat_file, 'r') as f:
             self.chat_data = json.load(f)
@@ -58,14 +56,12 @@ class FacebookChat():
         Allow a facebookchat object to be printed, returning it's title
         and the participants.
         '''
-
         return f'Facebook Chat titled {self.title} including {str(self.participants)}.'
         
     def get_participants(self) -> list:
         '''
         Returns a list of participant names
         '''
-
         return self.participants
 
     def total_interactions(self) -> int:
@@ -73,7 +69,6 @@ class FacebookChat():
         Returns the total number of interactions between participants,
         including texts, voice calls and video calls
         '''
-
         return len(self.chat_contents)
 
     def txts_by_party(self) -> dict[str, list]:
@@ -82,7 +77,6 @@ class FacebookChat():
         
         Returns a dict of format sender_name:[messages]
         '''
-
         txts = {party: [] for party in self.participants}
         for msg in self.chat_contents:
             if 'call_duration' not in msg and 'content' in msg:
@@ -97,7 +91,6 @@ class FacebookChat():
         Returns the total as an int, and the breakdown as a list containing 
         tuples: (name (str), number of msgs (int))
         '''
-        
         txts = self.txts_by_party()
         txt_counts = []
         total = 0
@@ -114,7 +107,6 @@ class FacebookChat():
         
         Returns a dict of format name: list of words
         '''
-
         txts = self.txts_by_party()
         words_by_party = {party: [] for party in self.participants}
         for name, msgs in txts.items():
@@ -131,7 +123,6 @@ class FacebookChat():
         
         Returns total words in chat, number sent by each participant
         '''
-
         words_by_party = self.words_in_txts()
         word_count_by_party = {p: len(w) for p, w in words_by_party.items()}
         total_word_count = 0
@@ -149,7 +140,6 @@ class FacebookChat():
             
         Returns a dictionary of format name: n most common words used
         '''
-
         words_by_party = self.words_in_txts()
         top_words = {party: [] for party in self.participants}
         for name, words in words_by_party.items():
@@ -165,7 +155,6 @@ class FacebookChat():
         Returns the number of times the search term appeared in messages
         sent by each of the participants.
         '''
-
         results = {}
         messages = self.chat_contents
         for msg in messages:
@@ -179,7 +168,6 @@ class FacebookChat():
         Searches messages for the search term provided and returns
         the full text of all messages that contain it. Case insensitive.
         '''
-
         hit_msgs = []
         messages = self.chat_contents
         for msg in messages:
@@ -198,7 +186,6 @@ class FacebookChat():
             voice_calls_by_party(dict): which participant made how many calls
             total_duration(int): duration in minutes of voice calls between all parties
             '''
-            
         voice_calls_by_party = {party: 0 for party in self.participants}
         total_duration = 0
         for msg in self.chat_contents:
@@ -217,7 +204,6 @@ class FacebookChat():
             video_calls_by_party(dict): which participant made how many calls
             total_duration(int): duration in minutes of video calls between all parties
             '''
-
         video_calls_by_party = {party: 0 for party in self.participants}
         total_call_duration = 0
         for msg in self.chat_contents:
@@ -235,7 +221,6 @@ class FacebookChat():
         
         Returns a dict of participants:emojis sent
         '''
-
         emojis = {e: 0 for e in emoji.EMOJI_DATA.keys()}
         emojis_by_party = {party: deepcopy(emojis) for party in self.participants}
         words_by_party = self.words_in_txts()
@@ -257,7 +242,6 @@ class FacebookChat():
         
         Returns the start and end times converted to desired format
         '''
-        
         start = datetime.fromtimestamp(self.chat_contents[-1]['timestamp_ms']/1000)
         end = datetime.fromtimestamp(self.chat_contents[0]['timestamp_ms']/1000)
         if output == 'datetime':
@@ -273,7 +257,6 @@ class FacebookChat():
         
         Returns the number of days as an int
         '''
-
         start, end = self.get_time_interval('datetime')
         return (end - start).days + 1
 
@@ -281,7 +264,6 @@ class FacebookChat():
         '''
         Gets the average words per text message for each party
         '''
-
         words = self.number_of_words()[1]
         words_per_text = {p: w // self.get_number_days() for p, w in words.items()}
         return words_per_text
@@ -290,7 +272,6 @@ class FacebookChat():
         '''
         Gets the average number of text messages sent per day
         '''
-        
         return int(self.number_of_texts()[0] / self.get_number_days())
     
     def images_by_sender(self) -> dict[str, list[dict[str, str]]]:
@@ -298,7 +279,6 @@ class FacebookChat():
         Creates a dictionary of sender_name: list of images sent.
         The list contains a dict for each image of format date_sent: file name
         '''
-
         sorted_images = {sender: [] for sender in self.participants}
         for msg in self.chat_contents:
             if 'photos' in msg:

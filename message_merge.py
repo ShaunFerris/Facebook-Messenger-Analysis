@@ -13,7 +13,6 @@ def fb_chat_merge(files_to_merge: list, outfile_name: str='unnamed_merged_messag
     
     Returns one merged .json file, in the schema used by facebook.
     '''
-    
     files_to_merge = {n + 1: f for n, f in enumerate(files_to_merge)}
     #Add latest timestamp to data so they can be stitched in the right order
     for n, f in files_to_merge.items():
@@ -40,7 +39,6 @@ def acquire_and_merge():
     Accepts any number of chat files for the conversation as paths and returns the 
     merged file with a name given by the user.
     '''
-    
     file_list = []
     print('How many files would you like to merge?')
     num_files_to_merge = int(input('>> '))

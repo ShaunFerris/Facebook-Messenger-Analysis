@@ -17,7 +17,6 @@ def get_image_info(chat_json):
     uses the photos_by_sender method to organize the photo file names by
     who sent them and when.
     '''
-
     chat_object = FB(chat_json)
     return chat_object.images_by_sender()
 
@@ -29,7 +28,6 @@ def make_file_structure(start_year, end_year, title):
     To be used for storing the files in sorted containers.
     Takes the chat object as an arg.
     '''
-    
     #Get path to desktop and create photos folder if it doesn't already exist
     desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
     images_path = os.path.join(desktop_path, f'photos_from_facebook_chat_{title}')
@@ -62,7 +60,6 @@ def sort_pictures(unsorted, destination_file_struct, images_by_sender):
         images_by_sender: The dictionary made by the images_by_sender function of a
         FacebookChat class instance.
         '''
-    
     for sender_name, images in images_by_sender.items():
         for image in images:
             sent_date = image.keys()[0]
@@ -85,6 +82,7 @@ def main():
     CLI based applications. Prompts the user for file locations and names
     that the preceeding methods use.
     '''
+    pass
 
     
 
